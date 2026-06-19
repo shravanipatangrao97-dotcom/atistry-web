@@ -63,6 +63,9 @@ export function handleRoute() {
 
   // Scroll to top on navigation
   window.scrollTo({ top: 0, behavior: 'instant' });
+
+  // Initialize scroll animations
+  initScrollAnimations();
 }
 
 function updateActiveNavLink(routeName) {
@@ -75,6 +78,23 @@ function updateActiveNavLink(routeName) {
       link.classList.remove('active');
     }
   });
+}
+
+function initScrollAnimations() {
+  const elements = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // Trigger only once for performance
+      }
+    });
+  }, {
+    threshold: 0.05, // Trigger as soon as 5% of the element is visible
+    rootMargin: '0px 0px -50px 0px' // Slightly offset the trigger point for a smoother entrance
+  });
+
+  elements.forEach(el => observer.observe(el));
 }
 
 export function initRouter() {

@@ -49,7 +49,7 @@ export function renderHome() {
           <!-- Item 2: Painting 1 Polaroid (Square) -->
           <div class="collage-item collage-art-1">
             <div class="tape-diagonal"></div>
-            <div class="polaroid">
+            <div class="polaroid highlight">
               <img src="${goldenTree.image}" alt="${goldenTree.title}">
               <div class="polaroid-caption">Moonlit Tree 🌙</div>
             </div>
@@ -91,16 +91,16 @@ export function renderHome() {
       </section>
 
       <!-- Divider -->
-      <div class="scrapbook-divider">
+      <div class="scrapbook-divider fade-in">
         <div class="divider-line"></div>
         <span class="divider-doodle">✦ ✦ ✦</span>
         <div class="divider-line"></div>
       </div>
 
       <!-- ABOUT SECTION: Story + Polaroid strip -->
-      <section class="about-section">
+      <section class="about-section fade-in">
         <!-- Photo strip styling -->
-        <div class="photostrip-container">
+        <div class="photostrip-container story-image">
           <div class="tape-strip-pin"></div>
           <div class="photostrip">
             <div class="photostrip-item">
@@ -116,7 +116,7 @@ export function renderHome() {
           </div>
         </div>
 
-        <div class="about-text">
+        <div class="about-text story-text">
           <span class="about-tag">My Story</span>
           <h2 style="font-family: var(--font-serif); margin: 0.5rem 0 1.5rem 0; font-size: 2.8rem;">Inspired by the textures of life</h2>
           <p>Hello! I'm Aachal, a painter working from a cozy, light-filled studio. Ever since I can remember, I've had some kind of brush or pencil in my hand. For me, creating art is a way of preserving feelings, quiet atmospheres, and beautiful organic memories.</p>
@@ -126,7 +126,7 @@ export function renderHome() {
       </section>
 
       <!-- COLLECTIONS SECTION -->
-      <section style="margin-bottom: 8rem;">
+      <section class="fade-in" style="margin-bottom: 8rem;">
         <div class="collections-header" style="text-align: center; margin-bottom: 4rem;">
           <h2 style="font-size: 2.8rem; margin-bottom: 1rem;">Browse the Collections</h2>
           <p style="max-width: 600px; margin: 0 auto;">Each theme explores a unique emotional landscape and artistic style. Find the perfect aesthetic for your home.</p>
@@ -160,7 +160,7 @@ export function renderHome() {
       </section>
 
       <!-- GALLERY PROMOTION SECTION: Apple Vision Pro 3D Gallery CTA -->
-      <section class="gallery-teaser-section">
+      <section class="gallery-teaser-section fade-in">
         <div class="gallery-teaser-card">
           <div class="gallery-teaser-content">
             <span class="teaser-tag">Virtual Experience</span>
@@ -169,7 +169,7 @@ export function renderHome() {
             <a href="#/gallery" class="btn-primary" style="background-color: var(--accent-terracotta); color: white;">Enter 3D Gallery</a>
           </div>
           <div class="gallery-teaser-preview">
-            <div class="preview-card-3d">
+            <div class="preview-card-3d gallery-preview">
               <img src="${goldenTree.image}" alt="3D preview">
               <div class="preview-glass-panel">
                 <h4 style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-dark); font-weight: 500;">Golden Moonlit Tree</h4>
@@ -181,8 +181,8 @@ export function renderHome() {
       </section>
 
       <!-- NEWSLETTER SECTION -->
-      <section style="margin-bottom: 6rem;">
-        <div class="newsletter-card">
+      <section class="fade-in" style="margin-bottom: 6rem;">
+        <div class="newsletter-card newsletter">
           <!-- Small decorative pin -->
           <div class="paper-pin"></div>
           <h2>Drop a line!</h2>
