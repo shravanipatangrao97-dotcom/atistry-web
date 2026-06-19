@@ -875,12 +875,14 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
 
 /* 3D Carousel Stage Wrapper */
 .gallery-container {
-  perspective: 1200px;
+  width: 100%;
+  max-width: 1100px;
+  height: 500px;
+  margin: 0 auto;
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 520px;
-  width: 100vw;
+  justify-content: center;
+  perspective: 1200px;
   overflow: hidden;
   z-index: 2;
   touch-action: pan-y;
@@ -891,41 +893,47 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
   cursor: grabbing;
 }
 
-/* Carousel Track */
+/* 3D Carousel Wrapper */
 .carousel {
   position: relative;
-  width: 600px;
-  height: 440px;
+  width: 300px;
+  height: 400px;
   transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Individual Card Styles */
+/* Cards (FIXES MAIN ISSUES) */
 .card {
   position: absolute;
-  width: 290px;
-  height: 380px;
+  width: 260px;
+  height: 340px;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
+  transform-origin: center;
+  translate: -50% -50%;
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 15px 35px rgba(43, 76, 94, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease, filter 0.8s ease;
   cursor: pointer;
   backface-visibility: hidden;
 }
 
-/* Floating animation wrapper inside the card to avoid transform clashes */
+/* Floating animation wrapper inside the card to avoid transform conflicts */
 .card-inner {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
   animation: float-museum 6s ease-in-out infinite;
 }
 
@@ -944,34 +952,31 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
   50% { transform: translateY(-8px); }
 }
 
+/* Image Fix (VERY IMPORTANT) */
 .card img {
   width: 100%;
-  height: 230px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: cover; /* FIXES STRETCHING */
+  border-radius: 16px;
   display: block;
 }
 
+/* Glassmorphism Curation Card details (Overlaying the image bottom) */
 .card .gallery-item-info {
-  background: transparent;
-  backdrop-filter: none;
-  border: none;
-  box-shadow: none;
-  padding: 0.8rem 1rem;
-  margin-top: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 253, 251, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.45);
+  padding: 12px;
   text-align: center;
+  z-index: 5;
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(100%);
   transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-/* Positioning States (Important Y-rotations and perspectives) */
-
-/* Center Card (Active Focus) */
-.card.active {
-  transform: translateX(0) translateZ(60px) rotateY(0deg) scale(1.1);
-  z-index: 10;
-  opacity: 1;
-  filter: blur(0);
 }
 
 .card.active .gallery-item-info {
@@ -979,46 +984,16 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
   transform: translateY(0);
 }
 
-/* Left side Card */
-.card.left {
-  transform: translateX(-230px) translateZ(-80px) rotateY(25deg) scale(0.9);
-  opacity: 0.65;
-  filter: blur(2px);
-  z-index: 4;
-  pointer-events: none;
+.card .gallery-item-info h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.2rem;
+  color: var(--text-dark);
 }
 
-/* Right side Card */
-.card.right {
-  transform: translateX(230px) translateZ(-80px) rotateY(-25deg) scale(0.9);
-  opacity: 0.65;
-  filter: blur(2px);
-  z-index: 4;
-  pointer-events: none;
-}
-
-/* Far Left Card */
-.card.far-left {
-  transform: translateX(-420px) translateZ(-160px) rotateY(40deg) scale(0.75);
-  opacity: 0.3;
-  filter: blur(4px);
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* Far Right Card */
-.card.far-right {
-  transform: translateX(420px) translateZ(-160px) rotateY(-40deg) scale(0.75);
-  opacity: 0.3;
-  filter: blur(4px);
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* Hover Zoom interaction on the focused center card */
-.card.active:hover {
-  transform: translateX(0) translateZ(90px) rotateY(0deg) scale(1.15) translateY(-5px);
-  box-shadow: 0 25px 55px rgba(43, 76, 94, 0.22);
+.card .gallery-item-info p {
+  font-size: 0.8rem;
+  color: var(--accent-terracotta);
+  font-weight: 500;
 }
 
 /* Details Expand Button */
@@ -1028,8 +1003,8 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
   background-color: var(--accent-terracotta);
   color: white;
   border-radius: 20px;
-  padding: 6px 14px;
-  font-size: 0.8rem;
+  padding: 5px 12px;
+  font-size: 0.75rem;
   font-weight: 500;
   border: none;
   cursor: pointer;
@@ -1049,12 +1024,13 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
   color: white !important;
 }
 
-/* Dots indicator indicators */
+/* Dots Indicators */
 .carousel-dots {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   z-index: 2;
 }
 
@@ -1077,7 +1053,8 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
 .carousel-controls {
   display: flex;
   gap: 2rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
+  z-index: 2;
 }
 
 .carousel-btn {
@@ -1101,92 +1078,36 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
   transform: scale(1.1);
 }
 
-/* Responsive Gallery Layout Overrides */
+/* Mobile & Tablet viewports overrides */
 @media (max-width: 968px) {
   .gallery-container {
-    height: 480px;
+    height: 440px;
   }
+
   .carousel {
-    width: 100%;
-    height: 400px;
+    width: 250px;
+    height: 340px;
   }
+
   .card {
-    width: 260px;
-    height: 350px;
-  }
-  .card img {
-    height: 200px;
+    width: 220px;
+    height: 290px;
   }
 }
 
-@media (max-width: 600px) {
-  .gallery-section {
-    min-height: auto;
-    padding: 2rem 0;
-  }
-
+@media (max-width: 768px) {
   .gallery-container {
-    height: auto;
-    overflow: visible;
-    display: block;
-    padding: 0;
+    height: 400px;
   }
 
   .carousel {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    overflow-x: auto;
-    padding: 20px;
-    transform: none !important;
-    perspective: none !important;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    justify-content: flex-start;
+    width: 220px;
+    height: 300px;
   }
 
   .card {
-    position: relative;
-    width: 280px;
-    height: 380px;
-    flex-shrink: 0;
-    transform: none !important;
-    opacity: 1 !important;
-    filter: none !important;
-    scroll-snap-align: center;
-    margin: 0;
-    background: var(--bg-paper);
-    box-shadow: 0 10px 25px rgba(43, 76, 94, 0.1);
-  }
-
-  .card-inner {
-    animation: none !important; /* Disable floating on mobile to prevent layout shift */
-  }
-
-  .card img {
-    height: 230px;
-  }
-
-  .card .gallery-item-info {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .expand-btn {
-    opacity: 1 !important;
-    transform: none !important;
-    margin-top: 8px;
-  }
-
-  .carousel-dots {
-    margin-top: 1rem;
-    margin-bottom: 0;
-  }
-
-  .carousel-controls {
-    display: none !important; /* Hide arrows on mobile */
+    width: 200px;
+    height: 260px;
   }
 }
 

@@ -61,44 +61,46 @@ export function initGallery() {
   const nextBtn = document.getElementById('next-gallery-btn');
   const stage = document.getElementById('carousel-stage-el');
   const dots = document.querySelectorAll('.dot');
+  const track = document.getElementById('carousel-track-el');
 
   if (items.length === 0) return;
 
   let currentIndex = 0;
   let isDragging = false;
   let startX = 0;
-  let dragThreshold = 50;
+  let dragThreshold = 40;
   const total = items.length;
 
   function updateCarousel() {
-    const isMobile = window.innerWidth <= 600;
-    const isTablet = window.innerWidth <= 968 && window.innerWidth > 600;
+    const isMobile = window.innerWidth <= 768;
+    const isTablet = window.innerWidth <= 968 && window.innerWidth > 768;
+    
+    // Spacing radius for circular depth calculation (350px default, 250px tablet, 180px mobile)
+    const radius = isMobile ? 180 : (isTablet ? 250 : 340);
+    const angle = 360 / total;
+
+    // Rotate the track cylinder to center the active card
+    if (track) {
+      track.style.transform = `rotateY(${-currentIndex * angle}deg)`;
+    }
 
     items.forEach((item, index) => {
-      // Clear class and reset transform
+      // Clear positioning classes
       item.className = 'card';
       
-      if (isMobile) {
-        // Mobile style: reset inline transforms
-        item.style.transform = '';
-        item.style.opacity = '1';
-        item.style.filter = 'none';
-        return;
-      }
-
-      // Calculate relative index diff with wrap-around
       let diff = index - currentIndex;
-      
-      // Normalize diff to range [-total/2, total/2]
       if (diff > total / 2) diff -= total;
       if (diff < -total / 2) diff += total;
 
-      // Apply class names based on position
-      if (diff === 0) {
+      const isCenter = (diff === 0);
+      const scaleVal = isCenter ? 1.1 : 0.9;
+      const opacityVal = isCenter ? 1 : 0.7;
+
+      if (isCenter) {
         item.classList.add('active');
-      } else if (diff === -1) {
+      } else if (diff === -1 || (currentIndex === 0 && index === total - 1)) {
         item.classList.add('left');
-      } else if (diff === 1) {
+      } else if (diff === 1 || (currentIndex === total - 1 && index === 0)) {
         item.classList.add('right');
       } else if (diff < -1) {
         item.classList.add('far-left');
@@ -106,34 +108,13 @@ export function initGallery() {
         item.classList.add('far-right');
       }
 
-      // Calculate smooth visual values
-      let opacity = 1;
-      let blurVal = 0;
-      let scaleVal = 1;
-      
-      if (diff !== 0) {
-        opacity = Math.max(0.3, 1 - Math.abs(diff) * 0.35);
-        blurVal = Math.abs(diff) * 2;
-        scaleVal = Math.max(0.75, 1 - Math.abs(diff) * 0.12);
-      } else {
-        scaleVal = 1.1; // scale active card up
-      }
-
-      // Spacing translation factors (Dynamic responsive offsets)
-      const horizontalSpacing = isTablet ? 170 : 230;
-      const depthSpacing = isTablet ? 60 : 80;
-      const rotateFactor = isTablet ? 20 : 25;
-
-      const translateX = diff * horizontalSpacing;
-      const rotateY = diff * -rotateFactor;
-      const translateZ = -Math.abs(diff) * depthSpacing;
-
-      item.style.transform = `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scaleVal})`;
-      item.style.opacity = `${opacity}`;
-      item.style.filter = `blur(${blurVal}px)`;
+      // Circular coordinates layout around the Y-cylinder
+      const cardAngle = index * angle;
+      item.style.transform = `rotateY(${cardAngle}deg) translateZ(${radius}px) scale(${scaleVal})`;
+      item.style.opacity = `${opacityVal}`;
     });
 
-    // Update dots status
+    // Update dots indicators active status
     dots.forEach((dot, index) => {
       if (index === currentIndex) {
         dot.classList.add('active');
@@ -153,7 +134,7 @@ export function initGallery() {
     updateCarousel();
   }
 
-  // Keyboard navigation
+  // Keyboard navigation listeners
   const keyHandler = (e) => {
     if (e.key === 'ArrowLeft') {
       slidePrev();
@@ -163,11 +144,11 @@ export function initGallery() {
   };
   window.addEventListener('keydown', keyHandler);
 
-  // Click controls
+  // Click arrow controls
   if (prevBtn) prevBtn.addEventListener('click', slidePrev);
   if (nextBtn) nextBtn.addEventListener('click', slideNext);
 
-  // Dots click handlers
+  // Dot indicators click logic
   dots.forEach(dot => {
     dot.addEventListener('click', () => {
       currentIndex = parseInt(dot.getAttribute('data-index'), 10);
@@ -175,11 +156,9 @@ export function initGallery() {
     });
   });
 
-  // Drag interaction
+  // Touch and drag swipe gestures
   if (stage) {
-    // Mouse Events
     stage.addEventListener('mousedown', (e) => {
-      if (window.innerWidth <= 600) return; // Disable drag on mobile layout
       isDragging = true;
       startX = e.pageX;
       stage.style.cursor = 'grabbing';
@@ -188,6 +167,8 @@ export function initGallery() {
     stage.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
     });
+
+    stage.style.cursor = 'grab';
 
     stage.addEventListener('mouseup', (e) => {
       if (!isDragging) return;
@@ -208,9 +189,8 @@ export function initGallery() {
       stage.style.cursor = 'grab';
     });
 
-    // Touch Events for Mobile (Only triggers swipe action when not scrolling horizontally)
+    // Touch Support for Mobile
     stage.addEventListener('touchstart', (e) => {
-      if (window.innerWidth <= 600) return;
       isDragging = true;
       startX = e.touches[0].clientX;
     }, { passive: true });
@@ -229,17 +209,9 @@ export function initGallery() {
     }, { passive: true });
   }
 
-  // Card click mechanics
+  // Card click triggers
   items.forEach((item, index) => {
     item.addEventListener('click', (e) => {
-      const isMobile = window.innerWidth <= 600;
-      if (isMobile) {
-        // Mobile tap always opens details
-        const art = artworks[index];
-        openQuickView(art);
-        return;
-      }
-
       if (index === currentIndex) {
         const art = artworks[index];
         openQuickView(art);
@@ -250,7 +222,7 @@ export function initGallery() {
     });
   });
 
-  // Bind click specifically on expand-btn for active card
+  // Expand button trigger specifically
   const expandBtns = document.querySelectorAll('.expand-btn');
   expandBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -261,7 +233,7 @@ export function initGallery() {
     });
   });
 
-  // Recalculate positions on window resize
+  // Bind window resize event
   const resizeHandler = () => {
     updateCarousel();
   };
@@ -270,7 +242,7 @@ export function initGallery() {
   // Initial update
   updateCarousel();
 
-  // Clean up global listeners on navigation
+  // Clean up global listeners on page navigation
   const oldHashchange = window.onhashchange;
   window.addEventListener('hashchange', function cleanup() {
     window.removeEventListener('keydown', keyHandler);
