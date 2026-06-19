@@ -13,8 +13,8 @@ export function renderAbout() {
         <div style="position: relative; justify-self: center; width: 85%; max-width: 420px; transform: rotate(-2deg);">
           <div class="tape" style="top: -10px; width: 120px; background-color: rgba(212,178,167,0.75);"></div>
           <div class="polaroid" style="padding: 16px 16px 36px 16px;">
-            <img src="/images/artist_portrait.jpg" alt="Aachal in studio" style="border-radius: 2px;">
-            <div class="polaroid-caption" style="font-size: 1.25rem;">working on a landscape study, 2026</div>
+            <img src="/images/artist_portrait.jpg" alt="Aachal with flowers" style="border-radius: 2px;">
+            <div class="polaroid-caption" style="font-size: 1.25rem;">me and my sunflower studies, 2026 🌻</div>
           </div>
         </div>
 

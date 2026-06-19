@@ -41,8 +41,8 @@ export function renderHome() {
           <div class="collage-item collage-artist">
             <div class="tape"></div>
             <div class="polaroid">
-              <img src="/images/artist_portrait.jpg" alt="Aachal in her studio">
-              <div class="polaroid-caption">me in the studio, 2026 ✨</div>
+              <img src="/images/artist_portrait.jpg" alt="Aachal with flowers">
+              <div class="polaroid-caption">me & sunflowers 🌻</div>
             </div>
           </div>
 
