@@ -68,24 +68,69 @@ export function initGallery() {
   let isDragging = false;
   let startX = 0;
   let dragThreshold = 50;
+  const total = items.length;
 
   function updateCarousel() {
-    items.forEach((item, index) => {
-      item.className = 'card'; // Reset classes
-      
-      const diff = index - currentIndex;
+    const isMobile = window.innerWidth <= 600;
+    const isTablet = window.innerWidth <= 968 && window.innerWidth > 600;
 
-      if (index === currentIndex) {
+    items.forEach((item, index) => {
+      // Clear class and reset transform
+      item.className = 'card';
+      
+      if (isMobile) {
+        // Mobile style: reset inline transforms
+        item.style.transform = '';
+        item.style.opacity = '1';
+        item.style.filter = 'none';
+        return;
+      }
+
+      // Calculate relative index diff with wrap-around
+      let diff = index - currentIndex;
+      
+      // Normalize diff to range [-total/2, total/2]
+      if (diff > total / 2) diff -= total;
+      if (diff < -total / 2) diff += total;
+
+      // Apply class names based on position
+      if (diff === 0) {
         item.classList.add('active');
-      } else if (diff === -1 || (currentIndex === 0 && index === items.length - 1)) {
+      } else if (diff === -1) {
         item.classList.add('left');
-      } else if (diff === 1 || (currentIndex === items.length - 1 && index === 0)) {
+      } else if (diff === 1) {
         item.classList.add('right');
-      } else if (diff < -1 || (currentIndex === 0 && index === items.length - 2)) {
+      } else if (diff < -1) {
         item.classList.add('far-left');
       } else {
         item.classList.add('far-right');
       }
+
+      // Calculate smooth visual values
+      let opacity = 1;
+      let blurVal = 0;
+      let scaleVal = 1;
+      
+      if (diff !== 0) {
+        opacity = Math.max(0.3, 1 - Math.abs(diff) * 0.35);
+        blurVal = Math.abs(diff) * 2;
+        scaleVal = Math.max(0.75, 1 - Math.abs(diff) * 0.12);
+      } else {
+        scaleVal = 1.1; // scale active card up
+      }
+
+      // Spacing translation factors (Dynamic responsive offsets)
+      const horizontalSpacing = isTablet ? 170 : 230;
+      const depthSpacing = isTablet ? 60 : 80;
+      const rotateFactor = isTablet ? 20 : 25;
+
+      const translateX = diff * horizontalSpacing;
+      const rotateY = diff * -rotateFactor;
+      const translateZ = -Math.abs(diff) * depthSpacing;
+
+      item.style.transform = `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scaleVal})`;
+      item.style.opacity = `${opacity}`;
+      item.style.filter = `blur(${blurVal}px)`;
     });
 
     // Update dots status
@@ -134,6 +179,7 @@ export function initGallery() {
   if (stage) {
     // Mouse Events
     stage.addEventListener('mousedown', (e) => {
+      if (window.innerWidth <= 600) return; // Disable drag on mobile layout
       isDragging = true;
       startX = e.pageX;
       stage.style.cursor = 'grabbing';
@@ -162,8 +208,9 @@ export function initGallery() {
       stage.style.cursor = 'grab';
     });
 
-    // Touch Events for Mobile
+    // Touch Events for Mobile (Only triggers swipe action when not scrolling horizontally)
     stage.addEventListener('touchstart', (e) => {
+      if (window.innerWidth <= 600) return;
       isDragging = true;
       startX = e.touches[0].clientX;
     }, { passive: true });
@@ -182,18 +229,21 @@ export function initGallery() {
     }, { passive: true });
   }
 
-  // Card click mechanics:
-  // - Click side card: Rotate it to the center active position.
-  // - Click active card or its expand button: open details.
+  // Card click mechanics
   items.forEach((item, index) => {
     item.addEventListener('click', (e) => {
+      const isMobile = window.innerWidth <= 600;
+      if (isMobile) {
+        // Mobile tap always opens details
+        const art = artworks[index];
+        openQuickView(art);
+        return;
+      }
+
       if (index === currentIndex) {
-        // Only trigger modal detail when clicking on elements in active card
-        // If clicking expand button specifically or center card
         const art = artworks[index];
         openQuickView(art);
       } else {
-        // Rotate side card to center
         currentIndex = index;
         updateCarousel();
       }
@@ -211,13 +261,20 @@ export function initGallery() {
     });
   });
 
+  // Recalculate positions on window resize
+  const resizeHandler = () => {
+    updateCarousel();
+  };
+  window.addEventListener('resize', resizeHandler);
+
   // Initial update
   updateCarousel();
 
-  // Clean up global listener on navigation
+  // Clean up global listeners on navigation
   const oldHashchange = window.onhashchange;
   window.addEventListener('hashchange', function cleanup() {
     window.removeEventListener('keydown', keyHandler);
+    window.removeEventListener('resize', resizeHandler);
     window.removeEventListener('hashchange', cleanup);
   });
 }

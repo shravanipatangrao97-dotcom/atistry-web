@@ -1101,6 +1101,95 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
   transform: scale(1.1);
 }
 
+/* Responsive Gallery Layout Overrides */
+@media (max-width: 968px) {
+  .gallery-container {
+    height: 480px;
+  }
+  .carousel {
+    width: 100%;
+    height: 400px;
+  }
+  .card {
+    width: 260px;
+    height: 350px;
+  }
+  .card img {
+    height: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery-section {
+    min-height: auto;
+    padding: 2rem 0;
+  }
+
+  .gallery-container {
+    height: auto;
+    overflow: visible;
+    display: block;
+    padding: 0;
+  }
+
+  .carousel {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 20px;
+    transform: none !important;
+    perspective: none !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+  }
+
+  .card {
+    position: relative;
+    width: 280px;
+    height: 380px;
+    flex-shrink: 0;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    scroll-snap-align: center;
+    margin: 0;
+    background: var(--bg-paper);
+    box-shadow: 0 10px 25px rgba(43, 76, 94, 0.1);
+  }
+
+  .card-inner {
+    animation: none !important; /* Disable floating on mobile to prevent layout shift */
+  }
+
+  .card img {
+    height: 230px;
+  }
+
+  .card .gallery-item-info {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .expand-btn {
+    opacity: 1 !important;
+    transform: none !important;
+    margin-top: 8px;
+  }
+
+  .carousel-dots {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  .carousel-controls {
+    display: none !important; /* Hide arrows on mobile */
+  }
+}
+
 /* 3. Shop & Grid Page Styles */
 .shop-layout {
   display: grid;
