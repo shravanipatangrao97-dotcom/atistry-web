@@ -2,7 +2,10 @@ import { artworks } from '../data/artworks.js';
 import { openQuickView } from '../components/QuickView.js';
 
 export function renderGallery() {
-  const itemsHtml = artworks.map((art, index) => {
+  // Show only original paintings in the 3D Virtual Gallery showcase
+  const galleryArtworks = artworks.filter(art => art.category === 'Original');
+
+  const itemsHtml = galleryArtworks.map((art, index) => {
     return `
       <div class="card" data-index="${index}">
         <div class="card-inner">
@@ -39,7 +42,7 @@ export function renderGallery() {
 
       <!-- Dots Indicator -->
       <div class="carousel-dots" id="carousel-dots-el">
-        ${artworks.map((_, i) => `<span class="dot" data-index="${i}"></span>`).join('')}
+        ${galleryArtworks.map((_, i) => `<span class="dot" data-index="${i}"></span>`).join('')}
       </div>
 
       <!-- Arrows control -->
@@ -56,6 +59,7 @@ export function renderGallery() {
 }
 
 export function initGallery() {
+  const galleryArtworks = artworks.filter(art => art.category === 'Original');
   const items = document.querySelectorAll('.card');
   const prevBtn = document.getElementById('prev-gallery-btn');
   const nextBtn = document.getElementById('next-gallery-btn');
@@ -93,14 +97,26 @@ export function initGallery() {
       if (diff < -total / 2) diff += total;
 
       const isCenter = (diff === 0);
-      const scaleVal = isCenter ? 1.1 : 0.9;
-      const opacityVal = isCenter ? 1 : 0.7;
+      const isLeft = (diff === -1 || (currentIndex === 0 && index === total - 1));
+      const isRight = (diff === 1 || (currentIndex === total - 1 && index === 0));
+      
+      let scaleVal, opacityVal, isVisible;
+      
+      if (isMobile) {
+        scaleVal = 1;
+        opacityVal = 1;
+        isVisible = true;
+      } else {
+        isVisible = isCenter || isLeft || isRight;
+        scaleVal = isCenter ? 1.1 : 0.9;
+        opacityVal = isCenter ? 1 : (isVisible ? 0.75 : 0);
+      }
 
       if (isCenter) {
         item.classList.add('active');
-      } else if (diff === -1 || (currentIndex === 0 && index === total - 1)) {
+      } else if (isLeft) {
         item.classList.add('left');
-      } else if (diff === 1 || (currentIndex === total - 1 && index === 0)) {
+      } else if (isRight) {
         item.classList.add('right');
       } else if (diff < -1) {
         item.classList.add('far-left');
@@ -112,6 +128,15 @@ export function initGallery() {
       const cardAngle = index * angle;
       item.style.transform = `rotateY(${cardAngle}deg) translateZ(${radius}px) scale(${scaleVal})`;
       item.style.opacity = `${opacityVal}`;
+
+      // Show/Hide to resolve visual cluttering of far background cards
+      if (isVisible) {
+        item.style.visibility = 'visible';
+        item.style.pointerEvents = 'auto';
+      } else {
+        item.style.visibility = 'hidden';
+        item.style.pointerEvents = 'none';
+      }
     });
 
     // Update dots indicators active status
