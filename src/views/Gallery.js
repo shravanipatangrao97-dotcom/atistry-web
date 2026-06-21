@@ -7,16 +7,13 @@ export function renderGallery() {
 
   const itemsHtml = galleryArtworks.map((art, index) => {
     return `
-      <div class="card" data-index="${index}">
-        <div class="card-inner">
-          <img src="${art.image}" alt="${art.title}">
-          <div class="gallery-item-info">
-            <h3>${art.title}</h3>
-            <p>${art.medium} • ${art.dimensions}</p>
-            <div style="font-weight: 600; font-size: 1.1rem; color: var(--text-dark); margin-top: 0.3rem; margin-bottom: 0.5rem;">
-              $${art.price}
-            </div>
-            <!-- Expand Button on Active Card -->
+      <div class="gallery-card" data-index="${index}">
+        <img src="${art.image}" alt="${art.title}">
+        <div class="card-info">
+          <h3>${art.title}</h3>
+          <p>${art.medium} • ${art.dimensions}</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+            <span style="font-weight: bold; font-size: 1.1rem; color: var(--text-dark);">$${art.price}</span>
             <button class="expand-btn" data-index="${index}">
               Expand Details <i class="fa-solid fa-expand" style="margin-left: 5px;"></i>
             </button>
@@ -35,9 +32,7 @@ export function renderGallery() {
 
       <!-- 3D Carousel Stage -->
       <div class="gallery-container" id="carousel-stage-el">
-        <div class="carousel" id="carousel-track-el">
-          ${itemsHtml}
-        </div>
+        ${itemsHtml}
       </div>
 
       <!-- Dots Indicator -->
@@ -60,12 +55,11 @@ export function renderGallery() {
 
 export function initGallery() {
   const galleryArtworks = artworks.filter(art => art.isUploaded === true);
-  const items = document.querySelectorAll('.card');
+  const items = document.querySelectorAll('.gallery-card');
   const prevBtn = document.getElementById('prev-gallery-btn');
   const nextBtn = document.getElementById('next-gallery-btn');
   const stage = document.getElementById('carousel-stage-el');
   const dots = document.querySelectorAll('.dot');
-  const track = document.getElementById('carousel-track-el');
 
   if (items.length === 0) return;
 
@@ -76,69 +70,18 @@ export function initGallery() {
   const total = items.length;
 
   function updateCarousel() {
-    const isMobile = window.innerWidth <= 768;
-    const isTablet = window.innerWidth <= 968 && window.innerWidth > 768;
-    
-    // Spacing radius for circular depth calculation (380px default, 280px tablet, 180px mobile)
-    const radius = isMobile ? 180 : (isTablet ? 280 : 380);
-    const angle = 360 / total;
-
-    // Rotate the track cylinder to center the active card
-    if (track) {
-      track.style.transform = `rotateY(${-currentIndex * angle}deg)`;
-    }
-
     items.forEach((item, index) => {
       // Clear positioning classes
-      item.className = 'card';
+      item.className = 'gallery-card';
       
-      let diff = index - currentIndex;
-      if (diff > total / 2) diff -= total;
-      if (diff < -total / 2) diff += total;
-
-      const isCenter = (diff === 0);
-      const isLeft = (diff === -1 || (currentIndex === 0 && index === total - 1));
-      const isRight = (diff === 1 || (currentIndex === total - 1 && index === 0));
-      
-      let scaleVal, opacityVal, isVisible, zTranslate;
-      
-      if (isMobile) {
-        scaleVal = 1;
-        opacityVal = 1;
-        isVisible = true;
-        zTranslate = radius;
-      } else {
-        isVisible = isCenter || isLeft || isRight;
-        scaleVal = isCenter ? 1.15 : 0.9;
-        opacityVal = isCenter ? 1 : (isVisible ? 0.75 : 0);
-        zTranslate = isCenter ? radius + 80 : radius; // Push center card forward in Z-space to completely prevent adjacent card edge overlap
-      }
-
-      if (isCenter) {
+      if (index === currentIndex) {
         item.classList.add('active');
-      } else if (isLeft) {
-        item.classList.add('left');
-      } else if (isRight) {
-        item.classList.add('right');
-      } else if (diff < -1) {
-        item.classList.add('far-left');
+      } else if (index === (currentIndex - 1 + total) % total) {
+        item.classList.add('prev');
+      } else if (index === (currentIndex + 1) % total) {
+        item.classList.add('next');
       } else {
-        item.classList.add('far-right');
-      }
-
-      // Circular coordinates layout around the Y-cylinder
-      const cardAngle = index * angle;
-      item.style.transform = `rotateY(${cardAngle}deg) translateZ(${zTranslate}px) scale(${scaleVal})`;
-      item.style.opacity = `${opacityVal}`;
-      item.style.zIndex = isCenter ? '10' : '1';
-
-      // Show/Hide to resolve visual cluttering of far background cards
-      if (isVisible) {
-        item.style.visibility = 'visible';
-        item.style.pointerEvents = 'auto';
-      } else {
-        item.style.visibility = 'hidden';
-        item.style.pointerEvents = 'none';
+        item.classList.add('hidden');
       }
     });
 
@@ -153,12 +96,12 @@ export function initGallery() {
   }
 
   function slideNext() {
-    currentIndex = (currentIndex + 1) % items.length;
+    currentIndex = (currentIndex + 1) % total;
     updateCarousel();
   }
 
   function slidePrev() {
-    currentIndex = (currentIndex - 1 + items.length) % items.length;
+    currentIndex = (currentIndex - 1 + total) % total;
     updateCarousel();
   }
 
@@ -261,20 +204,12 @@ export function initGallery() {
     });
   });
 
-  // Bind window resize event
-  const resizeHandler = () => {
-    updateCarousel();
-  };
-  window.addEventListener('resize', resizeHandler);
-
   // Initial update
   updateCarousel();
 
   // Clean up global listeners on page navigation
-  const oldHashchange = window.onhashchange;
   window.addEventListener('hashchange', function cleanup() {
     window.removeEventListener('keydown', keyHandler);
-    window.removeEventListener('resize', resizeHandler);
     window.removeEventListener('hashchange', cleanup);
   });
 }

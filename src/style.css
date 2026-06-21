@@ -897,129 +897,107 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
   cursor: grabbing;
 }
 
-/* 3D Carousel Wrapper */
-.carousel {
-  position: relative;
-  width: 300px;
-  height: 400px;
-  transform-style: preserve-3d;
-  transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Cards (FIXES MAIN ISSUES) */
-.card {
+/* Premium Flat 3D Gallery Card */
+.gallery-card {
   position: absolute;
-  width: 260px;
-  height: 340px;
-  left: 50%;
   top: 50%;
+  left: 50%;
+  width: 320px;
+  height: 420px;
   transform-style: preserve-3d;
-  transform-origin: center;
-  translate: -50% -50%;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease, filter 0.8s ease;
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   cursor: pointer;
-  backface-visibility: hidden;
+  border-radius: 16px;
 }
 
-/* Floating animation wrapper inside the card to avoid transform conflicts */
-.card-inner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  animation: float-museum 6s ease-in-out infinite;
+/* CENTER CARD */
+.gallery-card.active {
+  transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+  z-index: 3;
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.card:nth-child(1) .card-inner { animation-delay: 0s; }
-.card:nth-child(2) .card-inner { animation-delay: -1.2s; }
-.card:nth-child(3) .card-inner { animation-delay: -2.4s; }
-.card:nth-child(4) .card-inner { animation-delay: -3.6s; }
-.card:nth-child(5) .card-inner { animation-delay: -4.8s; }
-
-.card:hover .card-inner {
-  animation-play-state: paused;
+/* LEFT CARD */
+.gallery-card.prev {
+  transform: translate(-130%, -50%) scale(0.85) rotateY(25deg);
+  z-index: 2;
+  opacity: 0.6;
+  filter: blur(1px);
 }
 
-@keyframes float-museum {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+/* RIGHT CARD */
+.gallery-card.next {
+  transform: translate(30%, -50%) scale(0.85) rotateY(-25deg);
+  z-index: 2;
+  opacity: 0.6;
+  filter: blur(1px);
 }
 
-/* Image Fix (VERY IMPORTANT) */
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* FIXES STRETCHING */
+/* HIDDEN CARDS */
+.gallery-card.hidden {
+  transform: translate(-50%, -50%) scale(0.7) rotateY(0deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gallery-card img {
+  width: 320px;
+  height: 420px;
+  object-fit: cover;
   border-radius: 16px;
   display: block;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
 }
 
-/* Glassmorphism Curation Card details (Overlaying the image bottom) */
-.card .gallery-item-info {
+/* Integrated Text Panel (Premium Glass Effect) */
+.card-info {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 253, 251, 0.88);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-top: 1px solid rgba(255, 255, 255, 0.45);
-  padding: 12px;
-  text-align: center;
-  z-index: 5;
-  opacity: 0;
-  transform: translateY(100%);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  width: 100%;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 0 0 16px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  box-sizing: border-box;
+  text-align: left;
 }
 
-.card.active .gallery-item-info {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.card .gallery-item-info h3 {
-  font-size: 1.15rem;
-  margin-bottom: 0.2rem;
+.card-info h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  font-family: var(--font-serif);
   color: var(--text-dark);
 }
 
-.card .gallery-item-info p {
-  font-size: 0.8rem;
+.card-info p {
+  font-size: 13px;
   color: var(--accent-terracotta);
-  font-weight: 500;
+  margin-bottom: 5px;
 }
 
-/* Details Expand Button */
+.card-info span {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+}
+
 .expand-btn {
   display: inline-block;
-  margin-top: 5px;
   background-color: var(--accent-terracotta);
   color: white;
   border-radius: 20px;
-  padding: 5px 12px;
+  padding: 6px 12px;
   font-size: 0.75rem;
   font-weight: 500;
   border: none;
   cursor: pointer;
-  opacity: 0;
-  transform: translateY(5px);
   transition: all 0.3s ease;
-}
-
-.card.active .expand-btn {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .expand-btn:hover {
@@ -1084,97 +1062,44 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
 
 /* Mobile & Tablet viewports overrides */
 @media (max-width: 968px) {
-  .gallery-container {
-    height: 440px;
-  }
-
-  .carousel {
-    width: 250px;
+  .gallery-card {
+    width: 260px;
     height: 340px;
   }
-
-  .card {
-    width: 220px;
-    height: 290px;
+  .gallery-card img {
+    width: 260px;
+    height: 340px;
+  }
+  .gallery-card.prev {
+    transform: translate(-120%, -50%) scale(0.85) rotateY(25deg);
+  }
+  .gallery-card.next {
+    transform: translate(20%, -50%) scale(0.85) rotateY(-25deg);
+  }
+  .card-info h3 {
+    font-size: 15px;
   }
 }
 
 @media (max-width: 768px) {
-  .gallery-container {
-    height: auto !important;
-    overflow: visible !important;
-    display: block !important;
-    padding: 0 !important;
-    max-width: 100% !important;
+  .gallery-card.prev,
+  .gallery-card.next {
+    display: none !important;
   }
 
-  .carousel {
-    width: 100% !important;
-    height: auto !important;
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 20px !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    padding: 20px 16px !important;
-    transform: none !important;
-    perspective: none !important;
-    scroll-snap-type: x mandatory !important;
-    -webkit-overflow-scrolling: touch !important;
-    justify-content: flex-start !important;
+  .gallery-card.active {
+    transform: translate(-50%, -50%) scale(0.95) !important;
   }
 
-  .card {
-    position: relative !important;
-    width: 260px !important;
-    height: 340px !important;
-    left: auto !important;
-    top: auto !important;
-    translate: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-    filter: none !important;
-    flex-shrink: 0 !important;
-    scroll-snap-align: center !important;
-    margin: 0 !important;
-    background: var(--bg-paper) !important;
-    box-shadow: 0 10px 25px rgba(43, 76, 94, 0.1) !important;
+  .gallery-card {
+    width: 280px;
+    height: 380px;
   }
-
-  .card-inner {
-    animation: none !important; /* Disable floating animations on mobile */
+  .gallery-card img {
+    width: 280px;
+    height: 380px;
   }
-
-  .card img {
-    height: 100% !important;
-    object-fit: cover !important;
-  }
-
-  .card .gallery-item-info {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    background: rgba(255, 253, 251, 0.92) !important;
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.45) !important;
-    padding: 12px !important;
-  }
-
-  .expand-btn {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-    margin-top: 6px !important;
-  }
-
-  .carousel-dots {
-    margin-top: 1rem !important;
-    margin-bottom: 0 !important;
-  }
-
+  
   .carousel-controls {
     display: none !important; /* Hide arrows on mobile */
   }
@@ -2920,14 +2845,13 @@ footer {
   }
 
   /* 8. 3D GALLERY (MOBILE OPTIMIZED) */
-  .gallery-3d, .gallery-container, .carousel {
-    transform: none !important;
-    perspective: none !important;
+  .gallery-card.prev,
+  .gallery-card.next {
+    display: none !important;
   }
 
-  .gallery-item, .card {
-    transform: none !important;
-    width: 100% !important;
+  .gallery-card.active {
+    transform: translate(-50%, -50%) scale(0.95) !important;
   }
 
   /* 4. FADE-IN ANIMATIONS (App Feel) */
