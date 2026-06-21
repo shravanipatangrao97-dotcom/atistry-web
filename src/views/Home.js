@@ -19,7 +19,7 @@ export function renderHome() {
   const instaHtml = instaPosts.map(post => {
     const rot = (Math.random() * 4 - 2).toFixed(2);
     return `
-      <a href="https://instagram.com/aachalartistry" target="_blank" class="instagram-post" style="transform: rotate(${rot}deg);">
+      <a href="https://www.instagram.com/aachalartistry?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="instagram-post" style="transform: rotate(${rot}deg);">
         <img src="${post.img}" alt="Artwork" />
         <div class="insta-overlay">
           <span>View on Instagram →</span>
@@ -161,7 +161,7 @@ export function renderHome() {
 
         <div class="instagram-actions">
           <a
-            href="https://instagram.com/aachalartistry"
+            href="https://www.instagram.com/aachalartistry?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
             target="_blank"
             class="insta-btn"
           >
