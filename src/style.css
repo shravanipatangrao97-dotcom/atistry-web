@@ -5,8 +5,8 @@
   --bg-cream: #FAF6F0;
   --bg-sand: #F4EFE6;
   --bg-paper: #FFFDFB;
-  --text-dark: #232220;
-  --text-muted: #5E5852;
+  --text-dark: #1E1D1B;
+  --text-muted: #3D3935;
   --accent-sage: #2B4C5E;       /* Deep twilight galaxy blue */
   --accent-terracotta: #9F5A47;  /* Muted sunset terracotta */
   --accent-rose: #CBB279;        /* Shimmering gold leaf / warm sun */
@@ -82,9 +82,10 @@ h2 {
 }
 
 p {
-  font-size: 1rem;
-  font-weight: 300;
-  color: var(--text-muted);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--text-dark);
+  line-height: 1.7;
 }
 
 a {
