@@ -193,6 +193,10 @@ nav a.active {
   transform: scale(1.1);
 }
 
+#mobile-menu-btn {
+  display: none;
+}
+
 .badge {
   position: absolute;
   top: -8px;
@@ -1097,17 +1101,82 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
 
 @media (max-width: 768px) {
   .gallery-container {
-    height: 400px;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+    padding: 0 !important;
+    max-width: 100% !important;
   }
 
   .carousel {
-    width: 220px;
-    height: 300px;
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 20px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 20px 16px !important;
+    transform: none !important;
+    perspective: none !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    justify-content: flex-start !important;
   }
 
   .card {
-    width: 200px;
-    height: 260px;
+    position: relative !important;
+    width: 260px !important;
+    height: 340px !important;
+    left: auto !important;
+    top: auto !important;
+    translate: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: center !important;
+    margin: 0 !important;
+    background: var(--bg-paper) !important;
+    box-shadow: 0 10px 25px rgba(43, 76, 94, 0.1) !important;
+  }
+
+  .card-inner {
+    animation: none !important; /* Disable floating animations on mobile */
+  }
+
+  .card img {
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .card .gallery-item-info {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: rgba(255, 253, 251, 0.92) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.45) !important;
+    padding: 12px !important;
+  }
+
+  .expand-btn {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    margin-top: 6px !important;
+  }
+
+  .carousel-dots {
+    margin-top: 1rem !important;
+    margin-bottom: 0 !important;
+  }
+
+  .carousel-controls {
+    display: none !important; /* Hide arrows on mobile */
   }
 }
 
@@ -2304,5 +2373,239 @@ footer {
   width: 100%;
   object-fit: cover;
   object-position: center 25%;
+}
+
+/* Comprehensive Mobile Responsiveness Overrides (Screen width < 768px) */
+@media (max-width: 768px) {
+  /* Smooth Scroll Behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* 8. GENERAL SPACING */
+  main.content-container {
+    padding: 2rem 16px !important;
+  }
+
+  section {
+    margin-bottom: 5rem !important; /* Increased vertical spacing between sections */
+  }
+
+  /* Header & Navigation Bar Hamburger Menu */
+  header {
+    padding: 1rem 16px !important;
+  }
+
+  #main-nav {
+    position: fixed !important;
+    top: 0 !important;
+    right: -100% !important;
+    width: 280px !important;
+    height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 4rem 2rem !important;
+    gap: 2.2rem !important;
+    z-index: 999 !important;
+    transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    border-radius: 0 !important;
+    border: none !important;
+    background: rgba(250, 246, 240, 0.98) !important;
+    box-shadow: -5px 0 25px rgba(43, 76, 94, 0.15) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+  }
+
+  #main-nav.active {
+    right: 0 !important;
+  }
+
+  #main-nav a {
+    font-size: 1.4rem !important;
+    letter-spacing: 0.15em !important;
+  }
+
+  /* 1. HERO SECTION (Home) */
+  .scrapbook-hero {
+    grid-template-columns: 1fr !important;
+    padding: 7rem 16px 3rem 16px !important;
+    gap: 2.5rem !important;
+    min-height: auto !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    overflow: visible !important;
+  }
+
+  .hero-text-content {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    max-width: 100% !important;
+  }
+
+  .hero-title {
+    font-size: 2.6rem !important; /* Reduced for mobile screen readability */
+    line-height: 1.15 !important;
+    margin-bottom: 1rem !important;
+    letter-spacing: 0.2px !important;
+  }
+
+  .hero-title span[style*="font-size: 3.2rem"] {
+    font-size: 2.2rem !important; /* Scale down handwritten name */
+  }
+
+  .hero-text-content p {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1.5rem !important;
+    text-align: center !important;
+    max-width: 100% !important;
+  }
+
+  .hero-text-content div[style*="display: flex"] {
+    flex-direction: column !important; /* Stack buttons */
+    width: 100% !important;
+    gap: 1rem !important;
+    align-items: stretch !important;
+    margin-top: 1.5rem !important;
+  }
+
+  /* 4. BUTTONS (Stack & make touch-friendly) */
+  .btn-primary, .btn-secondary, .expand-btn, .checkout-btn {
+    width: 100% !important;
+    text-align: center !important;
+    padding: 1rem 2rem !important; /* Tap-friendly padding */
+    display: block !important;
+    box-sizing: border-box !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* 2. COLLAGE IMAGES (Horizontal Scroll Layout) */
+  .collage-container {
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 20px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 15px 20px 25px 20px !important;
+    justify-content: flex-start !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin-top: 2rem !important;
+  }
+
+  .collage-item {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    width: 220px !important; /* Reduced card size */
+    flex-shrink: 0 !important;
+    scroll-snap-align: center !important;
+    margin: 0 !important;
+    z-index: 1 !important;
+  }
+
+  /* Keep slight tilt only for scrapbook aesthetic */
+  .collage-artist {
+    transform: rotate(-1.5deg) !important;
+  }
+  .collage-art-1 {
+    transform: rotate(2deg) !important;
+  }
+  .collage-art-2 {
+    transform: rotate(-2deg) !important;
+  }
+  .collage-art-3 {
+    transform: rotate(1.5deg) !important;
+  }
+
+  /* Avoid heavy scale zoom transitions on touch mobile hover */
+  .collage-item:hover {
+    transform: scale(1.02) rotate(0deg) !important;
+  }
+  .collage-item:hover .polaroid, .collage-item:hover .polaroid.highlight {
+    transform: none !important;
+    animation-play-state: running !important;
+  }
+
+  /* Hide sticker items on mobile hero to reduce clutter */
+  .sticker {
+    display: none !important;
+  }
+
+  /* Reduce scrapbook dividers gap */
+  .scrapbook-divider {
+    margin: 3rem 0 !important;
+  }
+
+  /* 6. COLLECTION SECTION (1-column grid & proper spacing) */
+  .collections-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  .collection-card {
+    height: 300px !important; /* Fit image aspect ration inside column */
+  }
+
+  /* 7. ABOUT SECTION (Image above text, center aligned text, larger line height) */
+  .about-section {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .photostrip-container {
+    order: -1 !important; /* Stack image ABOVE text */
+    width: 260px !important;
+    margin: 0 auto 1rem auto !important;
+  }
+
+  .about-text {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  .about-text.story-text {
+    width: 100% !important;
+    padding: 24px 16px !important;
+  }
+
+  .about-text p {
+    font-size: 1.05rem !important;
+    line-height: 1.8 !important; /* Larger line height for readability */
+    text-align: center !important;
+  }
+
+  /* 9. PERFORMANCE (Reduce animation complexity) */
+  .fade-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important; /* Disable fade-in transitions for responsive performance */
+  }
+  
+  .card-inner, .polaroid {
+    animation-duration: 10s !important;
+  }
 }
 
