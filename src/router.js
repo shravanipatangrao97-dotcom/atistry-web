@@ -86,6 +86,7 @@ function initScrollAnimations() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        entry.target.classList.add('show');
         observer.unobserve(entry.target); // Trigger only once for performance
       }
     });

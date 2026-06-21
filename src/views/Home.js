@@ -29,7 +29,7 @@ export function renderHome() {
           <p style="color: var(--text-dark); font-weight: 400; font-size: 1.1rem; line-height: 1.7;">I paint quiet moments, warm sunbeams, and the wild patterns of nature. Step into my visual diary and find a piece that speaks to your heart.</p>
           
           <!-- Adjusted Button Hierarchy (3D Gallery is Primary, Shop is Secondary) -->
-          <div style="display: flex; gap: 1.2rem; align-items: center; margin-top: 2.2rem;">
+          <div class="hero-buttons" style="display: flex; gap: 1.2rem; align-items: center; margin-top: 2.2rem;">
             <a href="#/gallery" class="btn-primary" style="box-shadow: 0 8px 25px rgba(43, 76, 94, 0.22);">3D Virtual Gallery</a>
             <a href="#/shop" class="btn-secondary" style="border-radius: 2px; padding: 0.85rem 2.2rem; background-color: rgba(255, 255, 255, 0.45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid var(--text-dark);">Shop Artworks</a>
           </div>

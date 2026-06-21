@@ -2377,23 +2377,73 @@ footer {
 
 /* Comprehensive Mobile Responsiveness Overrides (Screen width < 768px) */
 @media (max-width: 768px) {
-  /* Smooth Scroll Behavior */
-  html {
+  /* Smooth Scroll Behavior & Prevent Horizontal Bleed */
+  html, body {
     scroll-behavior: smooth;
+    overflow-x: hidden !important;
+    width: 100%;
+  }
+
+  /* 1. GLOBAL MOBILE STYLES (Clean + Premium Feel) */
+  body {
+    padding: 0 14px !important;
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    background: #fdfaf7 !important;
+  }
+
+  h1, .hero-title {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+
+  h2 {
+    font-size: 22px !important;
+  }
+
+  p {
+    font-size: 14px !important;
+    opacity: 0.85 !important;
   }
 
   /* 8. GENERAL SPACING */
   main.content-container {
-    padding: 2rem 16px !important;
+    padding: 2rem 14px !important;
   }
 
   section {
-    margin-bottom: 5rem !important; /* Increased vertical spacing between sections */
+    margin-bottom: 6rem !important; /* Premium whitespace spacing */
   }
 
-  /* Header & Navigation Bar Hamburger Menu */
+  /* 2. GLASSMORPHISM STICKY NAVBAR */
   header {
-    padding: 1rem 16px !important;
+    position: sticky !important;
+    top: 10px !important;
+    z-index: 1000 !important;
+
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-radius: 16px !important;
+
+    padding: 10px 14px !important;
+    margin: 10px !important;
+
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+  }
+
+  header nav {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  #mobile-menu-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 1000 !important;
+    position: relative !important;
   }
 
   #main-nav {
@@ -2427,16 +2477,28 @@ footer {
     letter-spacing: 0.15em !important;
   }
 
-  /* 1. HERO SECTION (Home) */
-  .scrapbook-hero {
-    grid-template-columns: 1fr !important;
-    padding: 7rem 16px 3rem 16px !important;
-    gap: 2.5rem !important;
-    min-height: auto !important;
-    text-align: center !important;
+  /* Heading & Typography scaling overrides */
+  h1[style*="font-size: 3rem"],
+  h1[style*="font-size:3rem"],
+  .product-details-pane h1 {
+    font-size: 2.2rem !important;
+  }
+  h2[style*="font-size: 2.8rem"],
+  h2[style*="font-size: 2.6rem"],
+  h2[style*="font-size: 2.4rem"],
+  .about-text h2,
+  .gallery-teaser-content h2 {
+    font-size: 1.8rem !important;
+  }
+
+  /* 3. HERO SECTION (Stacked + Cinematic) */
+  .scrapbook-hero, .hero {
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
+    text-align: center !important;
+    gap: 16px !important;
+    padding-top: 80px !important;
+    min-height: auto !important;
     overflow: visible !important;
   }
 
@@ -2454,13 +2516,6 @@ footer {
     max-width: 100% !important;
   }
 
-  .hero-title {
-    font-size: 2.6rem !important; /* Reduced for mobile screen readability */
-    line-height: 1.15 !important;
-    margin-bottom: 1rem !important;
-    letter-spacing: 0.2px !important;
-  }
-
   .hero-title span[style*="font-size: 3.2rem"] {
     font-size: 2.2rem !important; /* Scale down handwritten name */
   }
@@ -2473,65 +2528,81 @@ footer {
     max-width: 100% !important;
   }
 
-  .hero-text-content div[style*="display: flex"] {
-    flex-direction: column !important; /* Stack buttons */
+  /* 5. BUTTONS (Full-width App Style) */
+  .hero-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
     width: 100% !important;
-    gap: 1rem !important;
-    align-items: stretch !important;
-    margin-top: 1.5rem !important;
+    box-sizing: border-box !important;
   }
 
-  /* 4. BUTTONS (Stack & make touch-friendly) */
+  .hero-buttons button,
+  .hero-buttons a,
+  .hero-buttons .btn-primary,
+  .hero-buttons .btn-secondary {
+    width: 100% !important;
+    padding: 14px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+    display: block !important;
+  }
+
   .btn-primary, .btn-secondary, .expand-btn, .checkout-btn {
     width: 100% !important;
     text-align: center !important;
-    padding: 1rem 2rem !important; /* Tap-friendly padding */
+    padding: 14px !important; /* Tap-friendly padding */
+    border-radius: 12px !important;
     display: block !important;
     box-sizing: border-box !important;
     font-size: 0.95rem !important;
   }
 
-  /* 2. COLLAGE IMAGES (Horizontal Scroll Layout) */
-  .collage-container {
+  /* 7. POLAROID IMAGES FIX (No Overflow) */
+  .polaroid-container, .collage-container, .hero-images {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 12px !important;
     width: 100% !important;
     height: auto !important;
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 20px !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
     padding: 15px 20px 25px 20px !important;
     justify-content: flex-start !important;
     scroll-snap-type: x mandatory !important;
     -webkit-overflow-scrolling: touch !important;
     margin-top: 2rem !important;
+    box-sizing: border-box !important;
+    transform: scale(0.85) !important;
+    margin-top: -20px !important;
   }
 
-  .collage-item {
+  .polaroid, .collage-item {
+    min-width: 160px !important;
     position: relative !important;
     left: auto !important;
     right: auto !important;
     top: auto !important;
     bottom: auto !important;
-    width: 220px !important; /* Reduced card size */
     flex-shrink: 0 !important;
     scroll-snap-align: center !important;
     margin: 0 !important;
     z-index: 1 !important;
+    transform: rotate(0deg) !important;
   }
 
   /* Keep slight tilt only for scrapbook aesthetic */
   .collage-artist {
-    transform: rotate(-1.5deg) !important;
+    transform: rotate(0deg) !important;
   }
   .collage-art-1 {
-    transform: rotate(2deg) !important;
+    transform: rotate(0deg) !important;
   }
   .collage-art-2 {
-    transform: rotate(-2deg) !important;
+    transform: rotate(0deg) !important;
   }
   .collage-art-3 {
-    transform: rotate(1.5deg) !important;
+    transform: rotate(0deg) !important;
   }
 
   /* Avoid heavy scale zoom transitions on touch mobile hover */
@@ -2553,14 +2624,27 @@ footer {
     margin: 3rem 0 !important;
   }
 
-  /* 6. COLLECTION SECTION (1-column grid & proper spacing) */
+  /* 6. COLLECTION CARDS (Scrollable + Snap) */
   .collections-grid {
-    grid-template-columns: 1fr !important;
-    gap: 2rem !important;
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 14px !important;
+    padding-bottom: 10px !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
   .collection-card {
-    height: 300px !important; /* Fit image aspect ration inside column */
+    min-width: 80% !important;
+    border-radius: 16px !important;
+    scroll-snap-align: center !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12) !important;
+    transition: transform 0.3s ease !important;
+    height: 300px !important;
+  }
+
+  .collection-card:active {
+    transform: scale(0.96) !important;
   }
 
   /* 7. ABOUT SECTION (Image above text, center aligned text, larger line height) */
@@ -2597,13 +2681,150 @@ footer {
     text-align: center !important;
   }
 
-  /* 9. PERFORMANCE (Reduce animation complexity) */
-  .fade-in {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important; /* Disable fade-in transitions for responsive performance */
+  /* About Page layout stacking overrides */
+  .about-page > div[style*="grid-template-columns"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2.5rem !important;
+    text-align: center !important;
   }
-  
+  .about-page > div[style*="grid-template-columns"] > div:first-child {
+    order: -1 !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+  }
+  .about-page > div[style*="grid-template-columns"] > div:last-child {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .about-page section > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Checkout Page stacking */
+  .form-row {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  .checkout-form-container, .checkout-summary-pane {
+    padding: 1.5rem !important;
+  }
+
+  /* 9. NEWSLETTER (App Card Style) */
+  .newsletter, .newsletter-card {
+    padding: 20px !important;
+    border-radius: 16px !important;
+    background: white !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+    box-sizing: border-box !important;
+  }
+
+  .newsletter input, .newsletter-form input {
+    width: 100% !important;
+    padding: 12px !important;
+    border-radius: 10px !important;
+    margin-bottom: 10px !important;
+    box-sizing: border-box !important;
+  }
+
+  .newsletter button, .newsletter-form button {
+    width: 100% !important;
+    padding: 12px !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Product details stacking & button grid actions */
+  .product-detail-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+  .product-image-pane {
+    max-width: 100% !important;
+    cursor: default !important;
+  }
+  .product-details-pane {
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .product-description p {
+    text-align: center !important;
+  }
+  .product-meta-table {
+    width: 100% !important;
+  }
+  .product-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 54px !important;
+    gap: 1rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  #add-to-bag-btn {
+    grid-column: 1 / span 2 !important;
+  }
+  #buy-now-btn {
+    grid-column: 1 !important;
+  }
+  .wishlist-add-btn {
+    grid-column: 2 !important;
+    width: 54px !important;
+    height: 54px !important;
+    margin: 0 !important;
+  }
+
+  /* Product grid layout on mobile */
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Contact page updates */
+  .contact-form-panel {
+    padding: 1.5rem !important;
+  }
+
+  /* 8. 3D GALLERY (MOBILE OPTIMIZED) */
+  .gallery-3d, .gallery-container, .carousel {
+    transform: none !important;
+    perspective: none !important;
+  }
+
+  .gallery-item, .card {
+    transform: none !important;
+    width: 100% !important;
+  }
+
+  /* 4. FADE-IN ANIMATIONS (App Feel) */
+  .fade-in {
+    opacity: 0 !important;
+    transform: translateY(20px) !important;
+    transition: all 0.6s ease !important;
+  }
+
+  .fade-in.show, .fade-in.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  /* 10. MICRO INTERACTIONS (Premium Feel) */
+  button, .btn-primary, .btn-secondary, .card-cart-btn, .nav-btn, .carousel-btn, .expand-btn {
+    transition: all 0.2s ease !important;
+  }
+
+  button:active, .btn-primary:active, .btn-secondary:active, .card-cart-btn:active, .nav-btn:active, .carousel-btn:active, .expand-btn:active {
+    transform: scale(0.96) !important;
+  }
+
+  .collection-card:hover {
+    transform: translateY(-4px) !important;
+  }
+
+  /* 9. PERFORMANCE (Reduce animation complexity) */
   .card-inner, .polaroid {
     animation-duration: 10s !important;
   }
