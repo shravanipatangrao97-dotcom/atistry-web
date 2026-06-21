@@ -2,8 +2,8 @@ import { artworks } from '../data/artworks.js';
 import { openQuickView } from '../components/QuickView.js';
 
 export function renderGallery() {
-  // Show only original paintings in the 3D Virtual Gallery showcase
-  const galleryArtworks = artworks.filter(art => art.category === 'Original');
+  // Show only uploaded paintings in the 3D Virtual Gallery showcase
+  const galleryArtworks = artworks.filter(art => art.isUploaded === true);
 
   const itemsHtml = galleryArtworks.map((art, index) => {
     return `
@@ -59,7 +59,7 @@ export function renderGallery() {
 }
 
 export function initGallery() {
-  const galleryArtworks = artworks.filter(art => art.category === 'Original');
+  const galleryArtworks = artworks.filter(art => art.isUploaded === true);
   const items = document.querySelectorAll('.card');
   const prevBtn = document.getElementById('prev-gallery-btn');
   const nextBtn = document.getElementById('next-gallery-btn');
@@ -238,7 +238,7 @@ export function initGallery() {
   items.forEach((item, index) => {
     item.addEventListener('click', (e) => {
       if (index === currentIndex) {
-        const art = artworks[index];
+        const art = galleryArtworks[index];
         openQuickView(art);
       } else {
         currentIndex = index;
@@ -253,7 +253,7 @@ export function initGallery() {
     btn.addEventListener('click', (e) => {
       e.stopPropagation(); // Avoid double modal trigger
       const index = parseInt(btn.getAttribute('data-index'), 10);
-      const art = artworks[index];
+      const art = galleryArtworks[index];
       openQuickView(art);
     });
   });
