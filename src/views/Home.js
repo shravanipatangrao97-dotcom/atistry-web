@@ -9,11 +9,11 @@ export function renderHome() {
   const minimalistGold = artworks.find(a => a.id === 'golden-branch-silhouette') || artworks[8];
 
   const instaPosts = [
-    { img: "/images/painting_golden_tree.jpg" },
+    { img: "/images/painting_seaside.png" },
+    { img: "/images/painting_botanical.png" },
+    { img: "/images/painting_still_life.png" },
     { img: "/images/artist_portrait.jpg" },
-    { img: "/images/painting_pink_flowers.jpg" },
-    { img: "/images/painting_minimalist_gold.jpg" },
-    { img: "/images/painting_temple_sunset.jpg" }
+    { img: "/images/painting_vintage_motorcycle.jpg" }
   ];
 
   const instaHtml = instaPosts.map(post => {
@@ -124,13 +124,13 @@ export function renderHome() {
           <div class="tape-strip-pin"></div>
           <div class="photostrip">
             <div class="photostrip-item">
-              <img src="/images/artist_portrait.jpg" alt="Inspiration">
+              <img src="/images/painting_meadow.png" alt="Meadow Study">
             </div>
             <div class="photostrip-item">
-              <img src="${templeSunset.image}" alt="Temple Study">
+              <img src="/images/painting_blossoms.png" alt="Springtime Blossoms">
             </div>
             <div class="photostrip-item">
-              <img src="${minimalistGold.image}" alt="Minimalist Gold">
+              <img src="/images/painting_earthy.png" alt="Earthy Terracotta Textures">
             </div>
             <span class="photostrip-caption">about myself</span>
           </div>
@@ -215,9 +215,9 @@ export function renderHome() {
           </div>
           <div class="gallery-teaser-preview">
             <div class="preview-card-3d gallery-preview">
-              <img src="${goldenTree.image}" alt="3D preview">
+              <img src="/images/painting_seaside.png" alt="3D preview">
               <div class="preview-glass-panel">
-                <h4 style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-dark); font-weight: 500;">Golden Moonlit Tree</h4>
+                <h4 style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-dark); font-weight: 500;">Seaside Cliffs at Sunrise</h4>
                 <p style="font-family: var(--font-hand); color: var(--accent-terracotta); margin-top: 0.2rem;">3D Virtual Showcase</p>
               </div>
             </div>
