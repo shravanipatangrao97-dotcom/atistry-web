@@ -79,8 +79,8 @@ export function initGallery() {
     const isMobile = window.innerWidth <= 768;
     const isTablet = window.innerWidth <= 968 && window.innerWidth > 768;
     
-    // Spacing radius for circular depth calculation (350px default, 250px tablet, 180px mobile)
-    const radius = isMobile ? 180 : (isTablet ? 250 : 340);
+    // Spacing radius for circular depth calculation (380px default, 280px tablet, 180px mobile)
+    const radius = isMobile ? 180 : (isTablet ? 280 : 380);
     const angle = 360 / total;
 
     // Rotate the track cylinder to center the active card
@@ -100,16 +100,18 @@ export function initGallery() {
       const isLeft = (diff === -1 || (currentIndex === 0 && index === total - 1));
       const isRight = (diff === 1 || (currentIndex === total - 1 && index === 0));
       
-      let scaleVal, opacityVal, isVisible;
+      let scaleVal, opacityVal, isVisible, zTranslate;
       
       if (isMobile) {
         scaleVal = 1;
         opacityVal = 1;
         isVisible = true;
+        zTranslate = radius;
       } else {
         isVisible = isCenter || isLeft || isRight;
-        scaleVal = isCenter ? 1.1 : 0.9;
+        scaleVal = isCenter ? 1.15 : 0.9;
         opacityVal = isCenter ? 1 : (isVisible ? 0.75 : 0);
+        zTranslate = isCenter ? radius + 80 : radius; // Push center card forward in Z-space to completely prevent adjacent card edge overlap
       }
 
       if (isCenter) {
@@ -126,8 +128,9 @@ export function initGallery() {
 
       // Circular coordinates layout around the Y-cylinder
       const cardAngle = index * angle;
-      item.style.transform = `rotateY(${cardAngle}deg) translateZ(${radius}px) scale(${scaleVal})`;
+      item.style.transform = `rotateY(${cardAngle}deg) translateZ(${zTranslate}px) scale(${scaleVal})`;
       item.style.opacity = `${opacityVal}`;
+      item.style.zIndex = isCenter ? '10' : '1';
 
       // Show/Hide to resolve visual cluttering of far background cards
       if (isVisible) {

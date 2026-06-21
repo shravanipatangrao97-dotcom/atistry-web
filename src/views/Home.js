@@ -8,13 +8,19 @@ export function renderHome() {
   const motorcycle = artworks.find(a => a.id === 'vintage-wanderer') || artworks[6];
   const minimalistGold = artworks.find(a => a.id === 'golden-branch-silhouette') || artworks[8];
 
+  const uploadedArtworks = artworks.filter(art => art.isUploaded === true);
+
   const instaPosts = [
-    { img: "/images/painting_seaside.png" },
-    { img: "/images/painting_botanical.png" },
-    { img: "/images/painting_still_life.png" },
-    { img: "/images/artist_portrait.jpg" },
-    { img: "/images/painting_vintage_motorcycle.jpg" }
+    { img: uploadedArtworks[0]?.image || "" },
+    { img: uploadedArtworks[1]?.image || "" },
+    { img: uploadedArtworks[2]?.image || "" },
+    { img: uploadedArtworks[3]?.image || "" },
+    { img: uploadedArtworks[4]?.image || "" }
   ];
+
+  const landscapeUpload = uploadedArtworks.find(a => a.theme === 'Landscape') || uploadedArtworks[0];
+  const floralUpload = uploadedArtworks.find(a => a.theme === 'Floral') || uploadedArtworks[1];
+  const abstractUpload = uploadedArtworks.find(a => a.theme === 'Abstract') || uploadedArtworks[2];
 
   const instaHtml = instaPosts.map(post => {
     const rot = (Math.random() * 4 - 2).toFixed(2);
@@ -124,13 +130,13 @@ export function renderHome() {
           <div class="tape-strip-pin"></div>
           <div class="photostrip">
             <div class="photostrip-item">
-              <img src="/images/painting_meadow.png" alt="Meadow Study">
+              <img src="${uploadedArtworks[5]?.image || ''}" alt="${uploadedArtworks[5]?.title || 'Artwork'}">
             </div>
             <div class="photostrip-item">
-              <img src="/images/painting_blossoms.png" alt="Springtime Blossoms">
+              <img src="${uploadedArtworks[6]?.image || ''}" alt="${uploadedArtworks[6]?.title || 'Artwork'}">
             </div>
             <div class="photostrip-item">
-              <img src="/images/painting_earthy.png" alt="Earthy Terracotta Textures">
+              <img src="${uploadedArtworks[7]?.image || ''}" alt="${uploadedArtworks[7]?.title || 'Artwork'}">
             </div>
             <span class="photostrip-caption">about myself</span>
           </div>
@@ -179,7 +185,7 @@ export function renderHome() {
 
         <div class="collections-grid">
           <!-- Card 1: Landscapes -->
-          <a href="#/shop?theme=Landscape" class="collection-card" style="background-image: url('${templeSunset.image}')">
+          <a href="#/shop?theme=Landscape" class="collection-card" style="background-image: url('${landscapeUpload.image}')">
             <div class="collection-info">
               <h3>Landscapes</h3>
               <span>Soft Oils &amp; Horizons</span>
@@ -187,7 +193,7 @@ export function renderHome() {
           </a>
 
           <!-- Card 2: Florals -->
-          <a href="#/shop?theme=Floral" class="collection-card" style="background-image: url('${pinkFlowers.image}')">
+          <a href="#/shop?theme=Floral" class="collection-card" style="background-image: url('${floralUpload.image}')">
             <div class="collection-info">
               <h3>Florals</h3>
               <span>Watercolors &amp; Gouache</span>
@@ -195,7 +201,7 @@ export function renderHome() {
           </a>
 
           <!-- Card 3: Abstracts -->
-          <a href="#/shop?theme=Abstract" class="collection-card" style="background-image: url('${goldenTree.image}')">
+          <a href="#/shop?theme=Abstract" class="collection-card" style="background-image: url('${abstractUpload.image}')">
             <div class="collection-info">
               <h3>Abstracts</h3>
               <span>Textures &amp; Earth Tones</span>
@@ -215,9 +221,9 @@ export function renderHome() {
           </div>
           <div class="gallery-teaser-preview">
             <div class="preview-card-3d gallery-preview">
-              <img src="/images/painting_seaside.png" alt="3D preview">
+              <img src="${uploadedArtworks[0]?.image || ''}" alt="3D preview">
               <div class="preview-glass-panel">
-                <h4 style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-dark); font-weight: 500;">Seaside Cliffs at Sunrise</h4>
+                <h4 style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-dark); font-weight: 500;">${uploadedArtworks[0]?.title || 'Ethereal Landscapes I'}</h4>
                 <p style="font-family: var(--font-hand); color: var(--accent-terracotta); margin-top: 0.2rem;">3D Virtual Showcase</p>
               </div>
             </div>

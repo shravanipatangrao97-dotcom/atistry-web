@@ -210,7 +210,7 @@ function bindCardActions(filteredList) {
 }
 
 function applyFiltersAndSort() {
-  let list = [...artworks];
+  let list = artworks.filter(art => art.isUploaded === true);
 
   // Search filter
   if (activeFilters.search) {
