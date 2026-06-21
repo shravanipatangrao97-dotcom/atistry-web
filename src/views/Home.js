@@ -8,6 +8,26 @@ export function renderHome() {
   const motorcycle = artworks.find(a => a.id === 'vintage-wanderer') || artworks[6];
   const minimalistGold = artworks.find(a => a.id === 'golden-branch-silhouette') || artworks[8];
 
+  const instaPosts = [
+    { img: "/images/painting_golden_tree.jpg" },
+    { img: "/images/artist_portrait.jpg" },
+    { img: "/images/painting_pink_flowers.jpg" },
+    { img: "/images/painting_minimalist_gold.jpg" },
+    { img: "/images/painting_temple_sunset.jpg" }
+  ];
+
+  const instaHtml = instaPosts.map(post => {
+    const rot = (Math.random() * 4 - 2).toFixed(2);
+    return `
+      <a href="https://instagram.com/aachalartistry" target="_blank" class="instagram-post" style="transform: rotate(${rot}deg);">
+        <img src="${post.img}" alt="Artwork" />
+        <div class="insta-overlay">
+          <span>View on Instagram →</span>
+        </div>
+      </a>
+    `;
+  }).join('');
+
   return `
     <div class="scrapbook-homepage">
       <!-- HERO SECTION: Video Background + Creative Collage -->
@@ -122,6 +142,31 @@ export function renderHome() {
           <p>Hello! I'm Aachal, a painter working from a cozy, light-filled studio. Ever since I can remember, I've had some kind of brush or pencil in my hand. For me, creating art is a way of preserving feelings, quiet atmospheres, and beautiful organic memories.</p>
           <p>My work combines structured layers, sand, and heavy impasto with soft, calming, pastel color-fields. Each piece is a personal diary entry made of colors and textures, and I am so grateful to share them with you.</p>
           <span class="about-signature">Aachal Artistry</span>
+        </div>
+      </section>
+
+      <!-- INSTAGRAM SHOWCASE SECTION -->
+      <section class="instagram-showcase fade-in">
+        <div class="insta-header">
+          <p class="insta-label">FROM MY STUDIO</p>
+          <h2 class="insta-title">@aachalartistry</h2>
+          <p class="insta-subtext">
+            Raw moments, textures & stories behind every piece ✨
+          </p>
+        </div>
+
+        <div class="instagram-grid">
+          ${instaHtml}
+        </div>
+
+        <div class="instagram-actions">
+          <a
+            href="https://instagram.com/aachalartistry"
+            target="_blank"
+            class="insta-btn"
+          >
+            Follow on Instagram
+          </a>
         </div>
       </section>
 
